@@ -16,6 +16,8 @@ class BookDetail extends Component {
   constructor(props) {
     super(props);
 
+    this.apiUrl = 'https://www.googleapis.com/books/v1/volumes';
+
     this.state = {
       isLoading: true,
       data: {}
@@ -27,7 +29,7 @@ class BookDetail extends Component {
   }
 
   fetchData() {
-    fetch(`https://www.googleapis.com/books/v1/volumes/${this.props.params.bookId}`)
+    fetch(`${this.apiUrl}/${this.props.params.bookId}`)
       .then(response => response.json())
       .then(data => this.setState({ isLoading: false, data: data }));
   }

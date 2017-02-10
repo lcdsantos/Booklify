@@ -24,6 +24,9 @@ class App extends Component {
 
     const query = this.props.location ? this.props.location.query.q : '';
 
+    this.apiUrl = 'https://www.googleapis.com/books/v1/volumes';
+    this.apiKey = 'AIzaSyBUPcdvuYoWqmMW02kJ26KcuTiB-lIzRtc';
+
     this.state = {
       isLoading: true,
       items: [],
@@ -61,20 +64,16 @@ class App extends Component {
   }
 
   executeQuery() {
-    const apiKey = 'AIzaSyBUPcdvuYoWqmMW02kJ26KcuTiB-lIzRtc';
-
-    fetch(`https://www.googleapis.com/books/v1/volumes?q=${this.state.query}&key=${apiKey}&startIndex=${(this.state.currentPage - 1) * 10}&maxResults=10`)
+    fetch(`${this.apiUrl}?q=${this.state.query}&key=${this.apiKey}&startIndex=${(this.state.currentPage - 1) * 10}&maxResults=10`)
       .then((response) => response.json())
       .then(data => this.updateItems(data));
   }
 
   updateItems(data) {
     if (this.state.totalPages === 0) {
-      const apiKey = 'AIzaSyBUPcdvuYoWqmMW02kJ26KcuTiB-lIzRtc';
-
       // Devido a um comportamento da API não é possivel fazer uma paginação precisa
       // Mais informações: https://productforums.google.com/forum/#!topic/books-api/Y_uEJhohJCc
-      fetch(`https://www.googleapis.com/books/v1/volumes?q=${this.state.query}&key=${apiKey}&startIndex=${data.totalItems - 1}&maxResults=1`)
+      fetch(`${this.apiUrl}?q=${this.state.query}&key=${this.apiKey}&startIndex=${data.totalItems - 1}&maxResults=1`)
         .then((response) => response.json())
         .then(data => this.setState({ isLoading: false, totalPages: Math.ceil(data.totalItems / 10) }) );
     }

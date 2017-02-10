@@ -92,7 +92,7 @@ class BookList extends Component {
     return (
       hasItems
         ? <Item.Group className="BookList">{bookList}</Item.Group>
-        : <div><h1>Nenhum resultado encontrado :(</h1><h2>Tente pesquisar novamente usando outros termos.</h2></div>
+        : <div><h1>Nenhum resultado encontrado :(</h1><h3>Tente pesquisar novamente usando outros termos.</h3></div>
     );
   }
 }
