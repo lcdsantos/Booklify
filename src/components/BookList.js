@@ -30,7 +30,7 @@ class BookList extends Component {
   getLikedItemsFromLocalStorage() {
     const liked = localStorage.getItem('liked');
 
-    return (liked === null) ? [] : JSON.parse(liked);
+    return liked ? JSON.parse(liked) : [];
   }
 
   handleLikeClick(e, { name }) {
@@ -51,22 +51,34 @@ class BookList extends Component {
     return _.includes(this.state.likedItems, id);
   }
 
+  highlightQuery(str) {
+    const words = this.props.query.split(/\s+/).join('|');
+    const matchRE = new RegExp('\\b(' + words + ')', 'ig');
+
+    return str.replace(matchRE, '<mark>$&</mark>');
+  }
+
   render() {
     const bookList = _.map(this.props.items, item => {
-      const thumbnail = (item.volumeInfo.imageLinks)
-        ? item.volumeInfo.imageLinks.smallThumbnail.replace('&edge=curl', '')
-        : `https://placehold.it/128x165?text=${item.volumeInfo.title}`;
+      const volumeInfo = item.volumeInfo;
 
-      const textSnippet = item.searchInfo && item.searchInfo.textSnippet;
+      const thumbnail = (volumeInfo.imageLinks)
+        ? volumeInfo.imageLinks.smallThumbnail.replace('&edge=curl', '')
+        : `https://placehold.it/128x165?text=${volumeInfo.title}`;
+
+      const textSnippet = item.searchInfo && this.highlightQuery(item.searchInfo.textSnippet);
+      const title = volumeInfo.title && this.highlightQuery(volumeInfo.title);
+      const subtitle = volumeInfo.subtitle && this.highlightQuery(volumeInfo.subtitle);
+      const authors = volumeInfo.authors && this.highlightQuery(_.join(volumeInfo.authors, ', '));
 
       return <Item key={item.id}>
-        <Item.Image size='tiny' src={thumbnail} />
+        <Item.Image as={Link} to={`/detalhe/${item.id}`} size='tiny' src={thumbnail} />
 
         <Item.Content>
-          <Item.Header as={Link} to={`/detalhe/${item.id}`}>{item.volumeInfo.title}</Item.Header>
-          <Item.Meta>{item.volumeInfo.subtitle}</Item.Meta>
+          <Item.Header as={Link} to={`/detalhe/${item.id}`} dangerouslySetInnerHTML={{ __html: title }}></Item.Header>
+          <Item.Meta dangerouslySetInnerHTML={{ __html: subtitle }}></Item.Meta>
           <Item.Description dangerouslySetInnerHTML={{ __html: textSnippet }}></Item.Description>
-          <Item.Extra>{_.join(item.volumeInfo.authors, ', ')}</Item.Extra>
+          <Item.Extra dangerouslySetInnerHTML={{ __html: authors }}></Item.Extra>
           <Item.Extra>
             <Button as={Link} to={`/detalhe/${item.id}`} primary floated='right' icon='right chevron' content='Ver mais detalhes' labelPosition='right' />
             <Button toggle active={this.isLiked(item.id)} floated='right' icon='heart' content='Curtir' labelPosition='left' name={item.id} onClick={this.handleLikeClick} />

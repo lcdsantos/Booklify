@@ -47,7 +47,7 @@ class BookDetail extends Component {
         : `https://placehold.it/300x450?text=${volumeInfo.title}`;
 
       const rating = volumeInfo.averageRating
-        ? <Rating icon='star' defaultRating={volumeInfo.averageRating} maxRating={5} disabled />
+        ? <Rating icon='star' defaultRating={volumeInfo.averageRating} maxRating={5} disabled title={'Avaliação: ' + volumeInfo.averageRating + '/5'} />
         : '';
 
       const publishedDate = moment(volumeInfo.publishedDate, 'YYYY-MM-DD');
@@ -60,11 +60,11 @@ class BookDetail extends Component {
           <Item.Meta>{volumeInfo.subtitle}</Item.Meta>
           <Item.Description dangerouslySetInnerHTML={{ __html: volumeInfo.description }}></Item.Description>
           <Item.Extra>{rating}</Item.Extra>
-          <Item.Extra>Autor: {_.join(volumeInfo.authors, ', ')}</Item.Extra>
-          <Item.Extra>Editora: {volumeInfo.publisher}</Item.Extra>
-          <Item.Extra>Data de publicação: {publishedDate.format('LL')}</Item.Extra>
-          <Item.Extra>Número de páginas: {volumeInfo.printedPageCount}</Item.Extra>
-          <Item.Extra>Categorias: {volumeInfo.categories}</Item.Extra>
+          <Item.Extra><strong>Autor:</strong> {_.join(volumeInfo.authors, ', ')}</Item.Extra>
+          <Item.Extra><strong>Editora:</strong> {volumeInfo.publisher}</Item.Extra>
+          <Item.Extra><strong>Data de publicação:</strong> {publishedDate.format('LL')}</Item.Extra>
+          <Item.Extra><strong>Número de páginas:</strong> {volumeInfo.printedPageCount}</Item.Extra>
+          <Item.Extra><strong>Categorias:</strong> {volumeInfo.categories}</Item.Extra>
           <Item.Extra>
             <Button primary onClick={browserHistory.goBack}>
               <Icon name='left chevron' />

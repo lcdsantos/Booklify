@@ -22,7 +22,7 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    const query = this.props.location.query.q;
+    const query = this.props.location ? this.props.location.query.q : '';
 
     this.state = {
       isLoading: true,
@@ -133,7 +133,7 @@ class App extends Component {
 
           <SearchForm query={this.state.query} loading={this.state.isLoading} updateQuery={this.updateQuery} />
 
-          <BookList items={this.state.items} />
+          <BookList query={this.state.query} items={this.state.items} />
 
           {totalPages > 0 && <Menu pagination className="Pagination">{pagination}</Menu>}
         </Container>
