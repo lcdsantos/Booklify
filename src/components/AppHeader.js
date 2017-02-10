@@ -12,8 +12,8 @@ import './AppHeader.css';
 class AppHeader extends Component {
   render() {
     return (
-      <div className="App-header">
-        <img src={logo} className="App-logo" alt="Booklify" />
+      <div className="AppHeader">
+        <img src={logo} className="AppLogo" alt="Booklify" />
       </div>
     );
   }

@@ -41,9 +41,16 @@ class BookDetail extends Component {
 
     if (this.state.data.volumeInfo) {
       const volumeInfo = this.state.data.volumeInfo;
-      const thumbnail = volumeInfo.imageLinks ? volumeInfo.imageLinks.small.replace('&edge=curl', '') : `https://placehold.it/300x450?text=${volumeInfo.title}`;
+
+      const thumbnail = volumeInfo.imageLinks
+        ? volumeInfo.imageLinks.small.replace('&edge=curl', '')
+        : `https://placehold.it/300x450?text=${volumeInfo.title}`;
+
+      const rating = volumeInfo.averageRating
+        ? <Rating icon='star' defaultRating={volumeInfo.averageRating} maxRating={5} disabled />
+        : '';
+
       const publishedDate = moment(volumeInfo.publishedDate, 'YYYY-MM-DD');
-      const rating = volumeInfo.averageRating ? <Rating icon='star' defaultRating={volumeInfo.averageRating} maxRating={5} disabled /> : '';
 
       bookDetail = <Item>
         <Item.Image size='medium' src={thumbnail} />

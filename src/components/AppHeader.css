@@ -1,20 +1,17 @@
-.App-logo {
-  height: 80px;
-}
-
-.App-header {
+.AppHeader {
+  position: relative;
+  z-index: 1;
   background-color: #43c6ac;
-  background-image: url('https://unsplash.it/1920/485?image=444');
+  /*background-image: url('https://unsplash.it/1920/485?image=444');*/
+  background-image: url('header-bg.jpg');
   background-position: 50% 50%;
   background-size: cover;
   padding: 200px 0;
   color: #fff;
   text-align: center;
-  position: relative;
-  z-index: 1;
 }
 
-.App-header:before {
+.AppHeader:before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -25,4 +22,8 @@
   background: #43c6ac;
   background: linear-gradient(to left, #43c6ac, #191654);
   opacity: 0.9;
+}
+
+.AppLogo {
+  height: 80px;
 }

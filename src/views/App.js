@@ -51,7 +51,8 @@ class App extends Component {
     browserHistory.push(`?q=${query}`);
 
     if (query) {
-      this.setState({ isLoading: true, query: query, totalPages: 0 }, this.executeQuery); // Executa a função `executeQuery` só depois que atualizar o state
+      // Executa a função `executeQuery` só depois que atualizar o state
+      this.setState({ isLoading: true, query: query, totalPages: 0 }, this.executeQuery);
     }
   }
 
