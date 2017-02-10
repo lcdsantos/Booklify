@@ -1,10 +1,18 @@
-import React from 'react';
+/**
+ * Modules
+ */
+import React, { Component } from 'react';
+import { Item, Button, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash';
-import { Item, Button, Icon } from 'semantic-ui-react';
+
+/**
+ * Assets
+ */
 import './BookList.css';
 
-export default class BookList extends React.Component {
+class BookList extends Component {
   constructor(props) {
     super(props);
 
@@ -13,7 +21,7 @@ export default class BookList extends React.Component {
 
   render() {
     const bookList = _.map(this.props.items, item => {
-      const thumbnail = (item.volumeInfo.imageLinks) ? item.volumeInfo.imageLinks.smallThumbnail : 'https://satyr.io/128x165?text=hello+world';
+      const thumbnail = (item.volumeInfo.imageLinks) ? item.volumeInfo.imageLinks.smallThumbnail.replace('&edge=curl', '') : `https://placehold.it/128x165?text=${item.volumeInfo.title}`;
       const textSnippet = item.searchInfo && item.searchInfo.textSnippet;
       // const publishedDate = moment(item.volumeInfo.publishedDate, 'YYYY-MM-DD');
 
@@ -21,12 +29,12 @@ export default class BookList extends React.Component {
         <Item.Image size='tiny' src={thumbnail} />
 
         <Item.Content>
-          <Item.Header as='a'>{item.volumeInfo.title}</Item.Header>
+          <Item.Header as={Link} to={`/detalhe/${item.id}`}>{item.volumeInfo.title}</Item.Header>
           <Item.Meta>{item.volumeInfo.subtitle}</Item.Meta>
           <Item.Description dangerouslySetInnerHTML={{ __html: textSnippet }}></Item.Description>
           <Item.Extra>{_.join(item.volumeInfo.authors, ', ')}</Item.Extra>
           <Item.Extra>
-            <Button primary floated='right'>
+            <Button primary floated='right' as={Link} to={`/detalhe/${item.id}`}>
               Ver mais detalhes
               <Icon name='right chevron' />
             </Button>
@@ -44,3 +52,5 @@ export default class BookList extends React.Component {
     );
   }
 }
+
+export default BookList;

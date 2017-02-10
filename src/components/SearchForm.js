@@ -1,8 +1,15 @@
-import React from 'react';
+/**
+ * Modules
+ */
+import React, { Component } from 'react';
 import { Form, Input } from 'semantic-ui-react';
+
+/**
+ * Assets
+ */
 import './SearchForm.css';
 
-export default class SearchForm extends React.Component {
+class SearchForm extends Component {
   constructor(props) {
     super(props);
 
@@ -26,9 +33,11 @@ export default class SearchForm extends React.Component {
     return (
       <Form className="SearchForm" onSubmit={this.handleSubmit}>
         <Form.Field>
-          <Input loading={this.props.loading} icon='search' action='Buscar' iconPosition='left' placeholder='Buscar...' name='query' onChange={this.handleChange} value={this.state.query} />
+          <Input loading={this.props.loading} icon='search' action='Buscar' iconPosition='left' placeholder='Tente buscar por um livro ou um autor...' name='query' onChange={this.handleChange} value={this.state.query} />
         </Form.Field>
       </Form>
     );
   }
 }
+
+export default SearchForm;

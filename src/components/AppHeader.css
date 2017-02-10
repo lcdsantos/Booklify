@@ -1,0 +1,28 @@
+.App-logo {
+  height: 80px;
+}
+
+.App-header {
+  background-color: #43c6ac;
+  background-image: url('https://unsplash.it/1920/485?image=444');
+  background-position: 50% 50%;
+  background-size: cover;
+  padding: 200px 0;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.App-header:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #43c6ac;
+  background: linear-gradient(to left, #43c6ac, #191654);
+  opacity: 0.9;
+}
