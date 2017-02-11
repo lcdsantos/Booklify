@@ -64,7 +64,7 @@
       "src/**/*.{js,jsx}"
     ],
     "setupFiles": [
-      "<rootDir>\\config\\polyfills.js"
+      "<rootDir>/config/polyfills.js"
     ],
     "testPathIgnorePatterns": [
       "<rootDir>[/\\\\](build|docs|node_modules)[/\\\\]"
