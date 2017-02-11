@@ -2,7 +2,6 @@
   "name": "booklify",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://lcdsantos.github.io/booklify",
   "devDependencies": {
     "autoprefixer": "6.5.1",
     "babel-core": "6.17.0",
@@ -58,7 +57,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "deploy": "npm run build && git subtree push --prefix build heroku master"
   },
   "jest": {
     "collectCoverageFrom": [
