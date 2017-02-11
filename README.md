@@ -1,4 +1,4 @@
-# Booklify
+# Booklify [![CircleCI](https://circleci.com/gh/lcdsantos/Booklify.svg?style=shield&circle-token=0ae2d6e920a3454d58528b86d35b3a5b41f81d6b)](https://circleci.com/gh/lcdsantos/Booklify)
 
 Escolhi usar React pra esse projeto pois nao tenho muito costume de usar um framework JavaScript e React é o que eu mais tinha familiaridade, entendia o conceito e a sintaxe, mas mesmo assim, nunca tinha feito nada sério com ele.
 
@@ -15,15 +15,27 @@ Se eu tivesse mais tempo, eu provávelmente teria criado os componentes do zero,
 ## Como executar
 
 Clone o repositório:
-```git clone https://github.com/lcdsantos/booklify```
+```bash
+git clone https://github.com/lcdsantos/Booklify.git
+```
+
 
 Entre na pasta criada:
-```cd booklify```
+```bash
+cd Booklify
+```
+
 
 Instale as dependências:
-```npm install```
+```
+npm install
+```
+
 
 Inicialize os serviços:
-```npm start```
+```
+npm start
+```
+
 
 A aplicação deverá estar disponível no endereço [http://localhost:3000/](http://localhost:3000/).
