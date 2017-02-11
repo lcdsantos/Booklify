@@ -30,16 +30,16 @@ class App extends Component {
     this.state = {
       isLoading: true,
       items: [],
-      query: (query ? query : ''),
+      query: query,
       currentPage: 1,
       totalPages: 0
     };
 
-    this.updateItems = this.updateItems.bind(this);
-    this.updateQuery = this.updateQuery.bind(this);
-    this.executeQuery = this.executeQuery.bind(this);
+    this.updateItems           = this.updateItems.bind(this);
+    this.updateQuery           = this.updateQuery.bind(this);
+    this.executeQuery          = this.executeQuery.bind(this);
     this.handlePaginationClick = this.handlePaginationClick.bind(this);
-    this.buildPagination = this.buildPagination.bind(this);
+    this.buildPagination       = this.buildPagination.bind(this);
   }
 
   componentDidMount() {
@@ -50,29 +50,50 @@ class App extends Component {
     }
   }
 
+  /**
+   * Update the state and browser's URL to match the query typed in the search bar and make sure
+   * that the `executeQuery` function only run after the state has been set.
+   *
+   * @param {string} query The query
+   */
   updateQuery(query) {
-    browserHistory.push(`?q=${query}`);
-
     if (query) {
-      // Executa a função `executeQuery` só depois que atualizar o state
+      browserHistory.push(`?q=${query}`);
       this.setState({ isLoading: true, query: query, totalPages: 0 }, this.executeQuery);
+    } else {
+      browserHistory.push('');
     }
   }
 
+  /**
+   * Handle the click on pagination items
+   *
+   * @param {Event} e             JavaScript event for the click
+   * @param {String} options.name The `name` prop in the element
+   */
   handlePaginationClick(e, { name }) {
     this.setState({ isLoading: true, currentPage: name }, this.executeQuery);
   }
 
+  /**
+   * Make the API Call
+   */
   executeQuery() {
     fetch(`${this.apiUrl}?q=${this.state.query}&key=${this.apiKey}&startIndex=${(this.state.currentPage - 1) * 10}&maxResults=10`)
       .then((response) => response.json())
       .then(data => this.updateItems(data));
   }
 
+  /**
+   * Receives JSON response from the API and set the proper states
+   * In order to get a more precise total pages count, we have to do
+   * another API call with the (wrong) total pages to get the right one
+   *
+   * @see https://productforums.google.com/forum/#!topic/books-api/Y_uEJhohJCc
+   * @param {Object} data JSON object from the API
+   */
   updateItems(data) {
     if (this.state.totalPages === 0) {
-      // Devido a um comportamento da API não é possivel fazer uma paginação precisa
-      // Mais informações: https://productforums.google.com/forum/#!topic/books-api/Y_uEJhohJCc
       fetch(`${this.apiUrl}?q=${this.state.query}&key=${this.apiKey}&startIndex=${data.totalItems - 1}&maxResults=1`)
         .then((response) => response.json())
         .then(data => this.setState({ isLoading: false, totalPages: Math.ceil(data.totalItems / 10) }) );
@@ -84,6 +105,14 @@ class App extends Component {
     });
   }
 
+  /**
+   * Build an array of pages within a range
+   * Based on this Gist https://gist.github.com/kottenator/9d936eb3e4e3c3e02598 by kottenator
+   *
+   * @param  {Integer} currentPage Currently active page
+   * @param  {Integer} totalPages  Number of total pages
+   * @return {Array}               A pagination as an array
+   */
   buildPagination(currentPage, totalPages) {
     var current = parseInt(currentPage, 10);
     var last = parseInt(totalPages, 10);

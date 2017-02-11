@@ -27,12 +27,23 @@ class BookList extends Component {
     this.setState({ likedItems: this.getLikedItemsFromLocalStorage() });
   }
 
+  /**
+   * Return items in localStore as an array
+   *
+   * @return {Array} Items saved in localStorage
+   */
   getLikedItemsFromLocalStorage() {
     const liked = localStorage.getItem('liked');
 
     return liked ? JSON.parse(liked) : [];
   }
 
+  /**
+   * Handle the click on the like buttons
+   *
+   * @param {Event} e             JavaScript event for the click
+   * @param {String} options.name The `name` prop in the element
+   */
   handleLikeClick(e, { name }) {
     const itemId = name;
     const likedItems = this.getLikedItemsFromLocalStorage();
@@ -47,10 +58,22 @@ class BookList extends Component {
     this.setState({ likedItems: likedItems });
   }
 
+  /**
+   * Check if a book is in the liked items
+   *
+   * @param  {String}  id Book ID
+   * @return {Boolean}    Returns true if has been found in the liked items
+   */
   isLiked(id) {
     return _.includes(this.state.likedItems, id);
   }
 
+  /**
+   * Surrounds searched words in a <mark> tag to highlight it
+   *
+   * @param  {String} str Input string
+   * @return {String}     The original string with the words highlighted
+   */
   highlightQuery(str) {
     const words = this.props.query.split(/\s+/).join('|');
     const matchRE = new RegExp('\\b(' + words + ')', 'ig');
@@ -67,9 +90,9 @@ class BookList extends Component {
         : `https://placehold.it/128x165?text=${volumeInfo.title}`;
 
       const textSnippet = item.searchInfo && this.highlightQuery(item.searchInfo.textSnippet);
-      const title = volumeInfo.title && this.highlightQuery(volumeInfo.title);
-      const subtitle = volumeInfo.subtitle && this.highlightQuery(volumeInfo.subtitle);
-      const authors = volumeInfo.authors && this.highlightQuery(_.join(volumeInfo.authors, ', '));
+      const title       = volumeInfo.title && this.highlightQuery(volumeInfo.title);
+      const subtitle    = volumeInfo.subtitle && this.highlightQuery(volumeInfo.subtitle);
+      const authors     = volumeInfo.authors && this.highlightQuery(_.join(volumeInfo.authors, ', '));
 
       return <Item key={item.id}>
         <Item.Image as={Link} to={`/detalhe/${item.id}`} size='tiny' src={thumbnail} />
@@ -87,10 +110,8 @@ class BookList extends Component {
       </Item>
     });
 
-    const hasItems = typeof this.props.items !== 'undefined';
-
     return (
-      hasItems
+      this.props.items
         ? <Item.Group className="BookList">{bookList}</Item.Group>
         : <div><h1>Nenhum resultado encontrado :(</h1><h3>Tente pesquisar novamente usando outros termos.</h3></div>
     );

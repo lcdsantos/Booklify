@@ -2,8 +2,8 @@
   "name": "booklify",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://lcdsantos.github.io/booklify",
   "devDependencies": {
-    "mark.js": "github:julmot/mark.js",
     "react-scripts": "0.8.5"
   },
   "dependencies": {

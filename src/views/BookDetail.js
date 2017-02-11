@@ -23,36 +23,53 @@ class BookDetail extends Component {
       data: {}
     };
 
-    this.fetchData = this.fetchData.bind(this);
-
     moment.locale('pt-br');
   }
 
+  /**
+   * Get the book details from the API and set the state accordingly
+   */
   fetchData() {
     fetch(`${this.apiUrl}/${this.props.params.bookId}`)
       .then(response => response.json())
       .then(data => this.setState({ isLoading: false, data: data }));
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchData();
+  }
+
+  /**
+   * Get the biggest possible thumbnail or return a placeholder image
+   *
+   * @param  {Object} imageLinks Image links from the API
+   * @param  {String} title      Text for the alternative image
+   * @return {String}            Thumbnail URL
+   */
+  getThumbnail(imageLinks, title) {
+    let thumbnail;
+
+    if (imageLinks.small) {
+      thumbnail = imageLinks.small;
+    } else if (imageLinks.smallThumbnail) {
+      thumbnail = imageLinks.smallThumbnail;
+    } else {
+      thumbnail = `https://placehold.it/300x450?text=${title}`;
+    }
+
+    return thumbnail.replace('&edge=curl', '');
   }
 
   render() {
     let bookDetail;
 
     if (this.state.data.volumeInfo) {
-      const volumeInfo = this.state.data.volumeInfo;
-
-      const thumbnail = volumeInfo.imageLinks
-        ? volumeInfo.imageLinks.small.replace('&edge=curl', '')
-        : `https://placehold.it/300x450?text=${volumeInfo.title}`;
-
-      const rating = volumeInfo.averageRating
-        ? <Rating icon='star' defaultRating={volumeInfo.averageRating} maxRating={5} disabled title={'Avaliação: ' + volumeInfo.averageRating + '/5'} />
-        : '';
-
+      const volumeInfo    = this.state.data.volumeInfo;
+      const thumbnail     = this.getThumbnail(volumeInfo.imageLinks, volumeInfo.title);
       const publishedDate = moment(volumeInfo.publishedDate, 'YYYY-MM-DD');
+      const rating        = volumeInfo.averageRating
+        ? <Rating icon='star' defaultRating={volumeInfo.averageRating} maxRating={5} disabled title={`Avaliação: ${volumeInfo.averageRating}/5`} />
+        : '';
 
       bookDetail = <Item>
         <Item.Image size='medium' src={thumbnail} />
@@ -75,11 +92,18 @@ class BookDetail extends Component {
           </Item.Extra>
         </Item.Content>
       </Item>;
+    } else {
+      bookDetail = <div hidden={this.state.isLoading}><Item>
+        <h2>Ops! Não conseguimos encontrar a sua requisição :(</h2>
+        <Button primary onClick={browserHistory.goBack}>
+          <Icon name='left chevron' />
+          Voltar
+        </Button>
+      </Item></div>
     }
 
-
     return (
-      <div className="Detalhes">
+      <div className="BookDetail">
         <AppHeader />
 
         <Container className="Content">
