@@ -1,3 +1,10 @@
 .BookList.ui.items > .item + .item {
   margin-top: 2em;
 }
+
+@media screen and (max-width: 950px) {
+  .BookList.ui.items > .item + .item {
+    border-top: 1px solid #eee;
+    padding-top: 2em;
+  }
+}

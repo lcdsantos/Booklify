@@ -33,7 +33,7 @@ class SearchForm extends Component {
     return (
       <Form className="SearchForm" onSubmit={this.handleSubmit}>
         <Form.Field>
-          <Input loading={this.props.loading} icon='search' action='Buscar' iconPosition='left' placeholder='Tente buscar por um livro ou um autor...' name='query' onChange={this.handleChange} value={this.state.query} />
+          <Input loading={this.props.loading} icon='search' action='Buscar' iconPosition='left' placeholder='Tente buscar por um livro ou um autor...' name='q' onChange={this.handleChange} value={this.state.query || ''} />
         </Form.Field>
       </Form>
     );

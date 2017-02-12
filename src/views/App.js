@@ -43,7 +43,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    if (this.state.query !== '') {
+    if (this.state.query) {
       this.executeQuery();
     } else {
       this.setState({ isLoading: false });

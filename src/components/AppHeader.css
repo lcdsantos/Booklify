@@ -2,7 +2,6 @@
   position: relative;
   z-index: 1;
   background-color: #43c6ac;
-  /*background-image: url('https://unsplash.it/1920/485?image=444');*/
   background-image: url('header-bg.jpg');
   background-position: 50% 50%;
   background-size: cover;
@@ -26,4 +25,15 @@
 
 .AppLogo {
   height: 80px;
+  vertical-align: bottom;
+}
+
+@media screen and (max-width: 950px) {
+  .AppHeader {
+    padding: 40px 0;
+  }
+
+  .AppLogo {
+    height: 50px;
+  }
 }
