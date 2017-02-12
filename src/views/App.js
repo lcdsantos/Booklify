@@ -80,7 +80,7 @@ class App extends Component {
    */
   executeQuery() {
     fetch(`${this.apiUrl}?q=${this.state.query}&key=${this.apiKey}&startIndex=${(this.state.currentPage - 1) * 10}&maxResults=10`)
-      .then((response) => response.json())
+      .then(response => response.json())
       .then(data => this.updateItems(data));
   }
 
@@ -93,9 +93,9 @@ class App extends Component {
    * @param {Object} data JSON object from the API
    */
   updateItems(data) {
-    if (this.state.totalPages === 0) {
+    if (this.state.totalPages === 0 && data.totalItems > 0) {
       fetch(`${this.apiUrl}?q=${this.state.query}&key=${this.apiKey}&startIndex=${data.totalItems - 1}&maxResults=1`)
-        .then((response) => response.json())
+        .then(response => response.json())
         .then(data => this.setState({ isLoading: false, totalPages: Math.ceil(data.totalItems / 10) }) );
     }
 
